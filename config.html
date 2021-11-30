@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>OSPF Протокол</title>
+
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="shortcut icon" type="image/jpg" href="image/favicon.ico" />
+
+</head>
+
+<body>
+
+    <!-- header section starts  -->
+
+    <header>
+
+        <div id="menu" class="fas fa-bars"></div>
+
+        <nav class="navbar">
+            <a href="index.html">Начало</a>
+            <a href="working.html">Принцип на работа</a>
+            <a href="char.html">Характеристики</a>
+            <a class="active" href="config.html">Конфигурация</a>
+            <a href="versions.html">Версии</a>
+            <a href="conclusion.html">Обобщение</a>
+        </nav>
+
+        <a href="index.html" class="btn">OSPF</a>
+
+        <div class="scroll-bar"></div>
+
+    </header>
+
+    <!-- header section ends -->
+
+    <!-- home section starts  -->
+
+    <section class="home" id="working">
+
+        <h3 class="name">Основна OSPF конфигурация</h3>
+
+        <div class="content">
+            <img src="image/config-1.jpeg" />
+        </div>
+
+    </section>
+
+    <!-- home section ends -->
+
+    <!-- main section starts  -->
+
+    <section class="main" id="main">
+
+        <div class="row">
+
+            <div class="content">
+
+                <p>Този раздел представя как да конфигурирате и установите OSPF връзка между рутеруте в мрежата. Ще се
+                    обърне внимание
+                    на влиянието на параметрите на интерфейсния MTU и OSPF hello/dead timer върху формирането
+                    на OSPF съседна връзка.
+                    Ще се разгледа отново значението на рутерите DR/BDR и как да се контролира процес по избиране на
+                    DR/BDR. На представената схема по-горе, Area 0 съдържа рутерите R1, R4 и Р5, които са предварително
+                    конфигурирани, а рутерите R2 и R3 ще бъдат конфигурирани по-надолу.</p>
+
+                <h3 class="title">
+                    Конфигуриране на OSPF върху рутери R2 и R3
+                </h3>
+                <p>
+                    R1, R4 и R5 са свързани към общ Ethernet сегмент за множествен достъп. R1 и R2 са свързани през
+                    сериен интерфейс Frame Relay, а R1 и R3 са свързани през Ethernet връзка.
+
+                    Примерът по-долу показва конфигурирането на OSPF на WAN и LAN интерфейси на R2 и R3. Добра практика е да се използват номерата
+                    на процесите 2 и 3 съответно на R2 и R3.
+                </p>
+
+                <pre>R2# <strong>configure terminal</strong>
+Enter configuration commands, one per line.  End with CNTL/Z.
+R2(config)# <strong>router ospf 2</strong>
+R2(config-router)# <strong>network 172.16.12.0 0.0.0.3 area 1</strong>
+R2(config-router)# <strong>network 192.168.2.0 0.0.0.255 area 1</strong></pre>
+                <pre>R3# <strong>configure terminal</strong>
+Enter configuration commands, one per line.  End with CNTL/Z.
+R3(config)# <strong>router ospf 3</strong>
+R3(config-router)# <strong>network 172.16.13.0 0.0.0.3 area 2</strong>
+R3(config-router)# <strong>network 192.168.3.0 0.0.0.255 area 2</strong></pre>
+                <h3 class="title">
+                    Конфигуриране на OSPF Router ID-та
+                </h3>
+                <p>За да активирате OSPF процеса на рутера, използвайте командата router ospf process-id.
+                    Идентификационните
+                    номера на процесите между съседите не трябва да съвпадат, за да могат рутерите да установят OSPF
+                    съседство. Идентификационният номер на OSPF процес е вътрешно използван идентификационен параметър
+                    за
+                    OSPF процес на маршрутизиране и има само локално значение. Въпреки това, добра практика е да
+                    се направи
+                    идентификационния номер на процеса еднакъв на всички рутери. Ако е необходимо, може да се посочат
+                    множество OSPF процеси за маршрутизиране на рутера, но това има последици при работата на проткола.
+                    За да се дефинира кои интерфейси ще изпълняват OSPF процеса и за да се дефинира идентификатора на
+                    зоната
+                    за тези интерфейси, се използва командата <strong>network </strong><em>ip-address wildcard-mask</em> area <em>area-id</em> .
+                    Комбинация от <em>ip-address</em> и <em>wildcard-mask</em> заедно позволява да се дефинират един или няколко
+                    интерфейса,
+                    които да бъдат свързани с конкретна OSPF област, като се използва една команда.</p>
+                <pre>R2(config-router)# <strong>router-id 2.2.2.2</strong>
+% OSPF: Reload or use "clear ip ospf process" command, for this to take effect</pre>
+                <pre>R3(config-router)# <strong>router-id 3.3.3.3</strong>
+% OSPF: Reload or use "clear ip ospf process" command, for this to take effect</pre>
+                <h3 class="title">
+                    Изчистване на OSPF процесите върху R2 и R3 рутерите
+                </h3>
+                <p>ИД на OSPF рутера е основен параметър за OSPF процеса. За да започне OSPF процесът, Cisco IOS трябва
+                    да може да идентифицира уникален идентификатор на OSPF рутер. Подобно на EIGRP, идентификаторът на
+                    OSPF рутера е 32-битова стойност, изразена като IPv4 адрес. Поне един основен IPv4 адрес на
+                    интерфейс в състояние нагоре/нагоре трябва да бъде конфигуриран, за да може рутер да избере ID на
+                    рутера; в противен случай се регистрира съобщение за грешка и OSPF процесът не стартира.</p>
+                <p>За да избере идентификатора на OSPF рутера в момента на инициализиране на OSPF процеса, рутерът
+                    използва следните критерии:</p>
+                <ol>
+                    <li>Използва се идентификатора на рутера, посочен в командата ip-address на рутера. Можете да се
+                        конфигурира произволна стойност във формат IPv4 адрес, но тази стойност трябва да е уникална.
+                        Ако IPv4 адресът, посочен с командата router-id, се припокрива с идентификатора на рутера на
+                        друг вече активен OSPF процес, командата router-id е неуспешна.</li>
+                    <li>Използва най-високия IPv4 адрес от всички активни loopback интерфейси на рутера.</li>
+                    <li>Използва се най-високия IPv4 адрес сред всички активни интерфейси без обратна връзка.</li>
+                </ol>
+                <p>След като процесът за избор на идентификатор на OSPF рутер приключи и ако рутерът все още не може да
+                    избере идентификатор на OSPF рутер, ще бъде регистрирано съобщение за грешка. OSPF процес, който не
+                    успя да избере идентификатор на рутера, опитва отново процеса на избор всеки път, когато IPv4 адрес
+                    стане наличен. (Приложим интерфейс променя състоянието си на up/up или IPv4 адрес е конфигуриран на
+                    приложим интерфейс.)</p>
+                <p>В пример 3-3 процесът на OSPF маршрутизиране се изчиства на R2 и R3, за да влезе в сила ръчно
+                    конфигурираният идентификатор на рутера.</p>
+                <pre>R2# <strong>clear ip ospf process</strong>
+Reset ALL OSPF processes? [no]: <strong>yes</strong>
+R2#
+*Nov 24 08:37:24.679: %OSPF-5-ADJCHG: Process 2, Nbr 1.1.1.1 on Serial0/0 from
+FULL to DOWN, Neighbor Down: Interface down or detached
+R2#
+*Nov 24 08:39:24.734: %OSPF-5-ADJCHG: Process 2, Nbr 1.1.1.1 on Serial0/0 from
+LOADING to FULL, Loading Done</pre>
+                <pre>R3# <strong>clear ip ospf 3 process</strong>
+Reset OSPF process 3? [no]: <strong>yes</strong>
+R3#
+*Nov 24 09:06:00.275: %OSPF-5-ADJCHG: Process 3, Nbr 1.1.1.1 on Ethernet0/0 from
+FULL to DOWN, Neighbor Down: Interface down or detached
+R3#
+*Nov 24 09:06:40.284: %OSPF-5-ADJCHG: Process 3, Nbr 1.1.1.1 on Ethernet0/0 from
+LOADING to FULL, Loading Done</pre>
+                <h3 class="title">Потвърждение на Router ID-та на R2 и R3</h3>
+                <p>След като е избран идентификатор на OSPF рутер, той не се променя дори ако интерфейсът, който се
+                    използва за избора му, промени своето работно състояние или своя IP адрес. За да промените
+                    идентификатора на OSPF рутера, трябва да нулирате OSPF процеса с командата clear ip ospf process или
+                    да презаредите рутера.</p>
+                <p>В производствените мрежи идентификационният номер на OSPF рутера не може да бъде променен лесно.
+                    Промяната на идентификатора на OSPF рутера изисква нулиране на всички OSPF съседства, което води до
+                    временно прекъсване на маршрута. Рутерът също трябва да генерира нови копия на всички произхождащи
+                    LSA с новия идентификатор на рутера.</p>
+                <p>Новоконфигурираният идентификатор на OSPF рутер се проверява на R2 и R3 с помощта на командите show
+                    ip
+                    protocols в Пример 3-4. Големият изход на тази команда може по избор да бъде филтриран с помощта на
+                    функцията тръба, също показана в Пример 3-4.</p>
+                <pre>R2# <strong>show ip protocols</strong>
+*** IP Routing is NSF aware ***
+                    
+Routing Protocol is "ospf 2"
+    Outgoing update filter list for all interfaces is not set
+    Incoming update filter list for all interfaces is not set
+                      
+Router ID 2.2.2.2
+    Number of areas in this router is 1. 1 normal 0 stub 0 nssa
+    Maximum path: 4
+    Routing for Networks:
+        172.16.12.0 0.0.0.3 area 1
+        192.168.2.0 0.0.0.255 area 1
+    Routing Information Sources:
+        Gateway         Distance      Last Update
+        1.1.1.1              110      00:02:55
+    Distance: (default is 110)
+                    
+R3# <strong>show ip protocols | include ID</strong>
+Router ID 3.3.3.3</pre>
+                <h3 class="title">Потвърждение на OSPF съседите на R2 и R3</h3>
+                <p>
+                    Командата show ip ospf neighbor показва информация за съседа на OSPF за всеки интерфейс. Значимите
+                    полета на изходите са както следва:
+
+                    Neighbor ID: Представлява ID на съседния рутер.
+                    Приоритет: Приоритет на съседния интерфейс, използван за избора на DR/BDR.
+                    Състояние: Пълно състояние представлява последния етап от процеса на установяване на OSPF съсед и
+                    означава, че локалният рутер е установил пълно съседство с отдалечения OSPF съсед. DR означава, че
+                    изборният процес на DR/BDR е завършен и че отдалеченият рутер с идентификатор на рутера 1.1.1.1 е
+                    избран като определен рутер (DR).
+                    Dead Time: Представлява стойността на неактивния таймер. Когато този таймер изтече, рутерът
+                    прекратява връзката на съседа. Всеки път, когато маршрутизаторът получи OSPF Hello пакет от
+                    конкретен съсед, той нулира мъртвия таймер обратно до пълната му стойност.
+                    Адрес: Основен IPv4 адрес на съседния рутер.
+                    Интерфейс: Локален интерфейс, през който се установява OSPF съседна връзка.
+                </p>
+                <pre>R2# <strong>show ip ospf neighbor</strong>
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+1.1.1.1           1   FULL/DR         00:01:57    172.16.12.1     Serial0/0</pre>
+                <pre>R3# <strong>show ip ospf neighbor</strong>
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+1.1.1.1           1   FULL/DR         00:00:39    172.16.13.1     Ethernet0/0</pre>
+                <h3 class="title">Потвърждение на OSPF интерфейсите на R2 и R3</h3>
+                <p>
+                    Изходът на командата show ip ospf interface ви показва всички интерфейси, активирани в процеса на
+                    OSPF. За всеки активиран интерфейс можете да видите подробна информация като идентификатор на OSPF
+                    област, идентификатор на OSPF процес и как интерфейсът е бил включен в OSPF процеса. В изхода можете
+                    да видите, че и двата интерфейса на двата рутера са включени чрез мрежовия оператор, конфигуриран с
+                    мрежовата команда.
+                </p>
+                <pre>R2# <strong>show ip ospf interface</strong>
+Loopback0 is up, line protocol is up
+    Internet Address 192.168.2.1/24, Area 1, Attached via Network Statement
+    Process ID 2, Router ID 2.2.2.2, Network Type LOOPBACK, Cost: 1
+&lt;Output omitted&gt;
+Serial0/0 is up, line protocol is up
+    Internet Address 172.16.12.2/30, Area 1, Attached via Network Statement
+    Process ID 2, Router ID 2.2.2.2, Network Type NON_BROADCAST, Cost: 64
+&lt;Output omitted&gt;</pre>
+                <pre>R3# <strong>show ip ospf interface</strong>
+Loopback0 is up, line protocol is up
+    Internet Address 192.168.3.1/24, Area 2, Attached via Network Statement
+    Process ID 3, Router ID 3.3.3.3, Network Type LOOPBACK, Cost: 1
+&lt;Output omitted&gt;
+Ethernet0/0 is up, line protocol is up
+    Internet Address 172.16.13.2/30, Area 2, Attached via Network Statement
+    Process ID, Router ID 3.3.3.3, Network Type BROADCAST, Cost: 10
+&lt;Output omitted&gt;</pre>
+                <h3 class="title">Потвърждение на OSPF маршрутите на R5</h3>
+                <p>
+                    Сред маршрутите, възникнали в автономната система на OSPF, OSPF ясно разграничава два типа маршрути:
+                    маршрути в рамките на зоната и маршрути между зоната. Вътрешните маршрути са маршрути, които са
+                    създадени и научени в една и съща локална област. Кодът за вътрешнообластните маршрути в таблицата
+                    за маршрутизация е O. Вторият тип са междуобластни маршрути, които произхождат от други области и се
+                    вмъкват в локалната зона, към която принадлежи вашият рутер. Кодът за междуобластните маршрути в
+                    таблицата за маршрутизация е O IA. Междузоновите маршрути се вмъкват в други области на ABR.
+
+                    Префиксът 192.168.4.0/24 е пример за маршрут в рамките на зоната от гледна точка на R5. Той
+                    произлиза от рутер R4, който е част от зона 0, същата област като R5.
+
+                    Префиксите от R2 и R3, които са част от зона 1 и зона 2, са показани в таблицата за маршрутизиране
+                    на R5 като междуобластни маршрути. Префиксите бяха вмъкнати в зона 0 като междуобластни маршрути от
+                    R1, който играе ролята на ABR.
+
+                    Префиксите 192.168.2.0/24 и 192.168.3.0/24, конфигурирани за loopback интерфейсите на R2 и R3, се
+                    показват в таблицата за маршрутизиране на R5 като хост маршрути 192.168.2.1/32 и 192.168.3.1/32 и
+                    192.168.3.1/32. По подразбиране OSPF ще рекламира всяка подмрежа, конфигурирана в интерфейса за
+                    обратна връзка, като /32 хост маршрут. За да промените това поведение по подразбиране, можете по
+                    избор да промените типа на мрежата OSPF на интерфейса за обратна примка от обратна верига по
+                    подразбиране към точка до точка, като използвате командата на интерфейса точка до точка ip ospf
+                    network point-to-point.
+                </p>
+                <pre>R5# <strong>show ip route ospf</strong>
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       + - replicated route, % - next hop override
+                    
+Gateway of last resort is not set
+                    
+      172.16.0.0/16 is variably subnetted, 4 subnets, 3 masks
+O IA   172.16.12.0/30 [110/74] via 172.16.145.1, 00:39:00, Ethernet0/0
+O IA    172.16.13.0/30 [110/20] via 172.16.145.1, 00:19:29, Ethernet0/0
+      192.168.2.0/32 is subnetted, 1 subnets
+O IA  [110/75] via 172.16.145.1, 00:07:27, Ethernet0/0
+      192.168.3.0/32 is subnetted, 1 subnets
+O IA     192.168.3.1 [110/21] via 172.16.145.1, 00:08:30, Ethernet0/0
+O 192.168.4.0/24 [110/11] via 172.16.145.4, 00:39:10, Ethernet0/0</pre>
+                <h3 class="title">OSPF маршрути на R5</h3>
+                <p>
+                    Командата show ip ospf route ясно разделя списъците с вътрешно-зонови и междузонови маршрути. В
+                    допълнение, изходът на командата показва основна информация за ABR, включително идентификатора на
+                    рутера, IPv4 адреса в текущата област, интерфейс, който рекламира маршрути в зоната, и
+                    идентификатора на зоната.
+
+                    За междуобластни маршрути се показват метриката за маршрута (цената), областта, в която е
+                    разпределен маршрутът, и интерфейсът, през който се вмъква маршрутът.
+
+                    В Пример 3-9 съседството на OSPF съсед и свързаните типове OSPF пакети на R3 се наблюдават с помощта
+                    на командите debug ip ospf adj и clear ip ospf process. Деактивирайте отстраняването на грешки,
+                    когато OSPF сесията бъде възстановена.
+                </p>
+                <pre>R5# <strong>show ip ospf route</strong>
+
+                    OSPF Router with ID (5.5.5.5) (Process ID 1)
+        
+                        Base Topology (MTID 0)
+        
+            Area BACKBONE(0)
+        
+            Intra-area Route List
+        *   172.16.145.0/29, Intra, cost 10, area 0, Connected
+              via 172.16.145.5, Ethernet0/0
+        *&gt;  192.168.4.0/24, Intra, cost 11, area 0
+              via 172.16.145.4, Ethernet0/0
+        
+            Intra-area Router Path List
+        i 1.1.1.1 [10] via 172.16.145.1, Ethernet0/0, ABR, Area 0, SPF 2
+        
+            Inter-area Route List
+        *&gt;  192.168.2.1/32, Inter, cost 75, area 0
+              via 172.16.145.1, Ethernet0/0
+        *&gt;  192.168.3.1/32, Inter, cost 21, area 0
+              via 172.16.145.1, Ethernet0/0
+        *&gt;  172.16.12.0/30, Inter, cost 74, area 0
+              via 172.16.145.1, Ethernet0/0
+        *&gt;  172.16.13.0/30, Inter, cost 20, area 0
+              via 172.16.145.1, Ethernet0/0</pre>
+            </div>
+        </div>
+
+    </section>
+
+    <div class="footer"> Kурсов проект на <a href="http://deyanm.com/">Деян Маринов</a> | &copy; 2021 Всички права
+        запазени.</div>
+
+    <!-- custom js file link  -->
+    <script src="script.js"></script>
+
+
+</body>
+
+</html>

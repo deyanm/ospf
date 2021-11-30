@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>OSPF Протокол</title>
+
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="../style.css">
+
+    <link rel="shortcut icon" type="image/jpg" href="image/favicon.ico" />
+
+</head>
+
+<body>
+
+    <!-- header section starts  -->
+
+    <header>
+
+        <div id="menu" class="fas fa-bars"></div>
+
+        <nav class="navbar">
+            <a href="../index.html">Начало</a>
+            <a class="active" href="../working.html">Принцип на работа</a>
+            <a href="../char.html">Характеристики</a>
+            <a href="../examples.html">Конфигурация</a>
+            <a href="versions.html">Версии</a>
+            <a href="conclusion.html">Обобщение</a>
+        </nav>
+
+        <a href="../index.html" class="btn">OSPF</a>
+
+        <div class="scroll-bar"></div>
+
+    </header>
+
+    <!-- header section ends -->
+
+    <!-- contact section starts  -->
+
+    <section class="contact" id="contact">
+
+        <h1 class="heading">LSR пакет</h1>
+        <div class="row">
+            <div class="packets">
+                <p>След като два рутера обменят DD пакети, те изпращат LSR пакети, за да поискат един от друг LSA.
+                    LSR пакетите съдържат обобщенията на исканите LSA. Фигура 6-39 показва формата на LSR пакет.</p>
+            </div>
+        </div>
+        <div class="row">
+
+            <table class="styled-table">
+                <tbody>
+                    <tr>
+                        <td colspan="1" class="accordion">Version
+                            <div class="panel">
+                                <p>8 бита. Номерът на версията, която се използва, 2 или 3.</p>
+                            </div>
+                        </td>
+                        <td colspan="1" class="accordion">Type
+                            <div class="panel">
+                                <p>8 бита. 5 типа пакета, разгледани са по-надолу.</p>
+                            </div>
+                        </td>
+                        <td colspan="2" class="accordion">Packet length
+                            <div class="panel">
+                                <p>16 бита. 2 октета, стойността е в мерни единици октети.</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="accordion">Router ID
+                            <div class="panel">
+                                <p>32 бита. Уникален идентификатор на устройството. За ID се избира един от IP адресите
+                                    на интерфейсите (имплементацията на Cisco избира най-големия по стойност адрес). Ако
+                                    на никой интерфейс не е назначен адрес, се избира 0.0.0.0 .</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="accordion">Area ID
+                            <div class="panel">
+                                <p>32 бита. Идентификатор на областта, към която принадлежи пакетът (в която се намира
+                                    създалият го рутър). Обикновено - IP адрес на една от мрежите, към които рутърът е
+                                    свързан.</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="accordion">Checksum
+                            <div class="panel">
+                                <p>16 бита. Стандартна контролна сума, която се изчислява на база на останалите полета
+                                </p>
+                            </div>
+                        </td>
+                        <td colspan="2" class="accordion">AuType
+                            <div class="panel">
+                                <p>16 бита. Дефинирани стойности са:
+                                    <br>0 - няма удостоверяване.
+                                    <br>1 - удостоверяване чрез парола.
+                                    <br>всички останали - запазени за раздаване от IANA.2
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="accordion">Authentication
+                            <div class="panel">
+                                <p>32 бита. Съдържат паролата (в някакъв тип, различен от plaintext).</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="accordion">Authentication
+                            <div class="panel">
+                                <p>32 бита. Съдържат паролата (в някакъв тип, различен от plaintext).</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="second">
+                        <td colspan="4" class="accordion">LSAs Headers
+                            <div class="panel">
+                                <p>Определя се от дължината на заглавката на LSA, която трябва да бъде потвърдена.</p>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <div class="row">
+            <div class="packets">
+                <h3 class="title">Полета на пакета</h3>
+                <p>
+                    <a>LS Type</a> - 32 бита. Тип на LSA.
+                    <br>
+                    <a>Link State ID</a> - 32 бита. Това поле заедно с полето тип LS описва LSA в AS.
+                    <br>
+                    <a>Advertising Router</a> - 32 бита. Идентификатор на рутера на рутера, който генерира LSA.
+                    <br>
+                </p>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- contact section ends -->
+
+    <!-- footer section  -->
+
+    <div class="footer"> Kурсов проект на <a href="http://deyanm.com/">Деян Маринов</a> | &copy; 2021 Всички права
+        запазени.</div>
+
+    <!-- custom js file link  -->
+    <script src="../script.js"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>OSPF Протокол</title>
+
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="../style.css">
+
+</head>
+
+<body>
+
+    <!-- header section starts  -->
+
+    <header>
+
+        <div id="menu" class="fas fa-bars"></div>
+
+        <nav class="navbar">
+            <a href="../index.html">Начало</a>
+            <a class="active" href="../working.html">Принцип на работа</a>
+            <a href="../char.html">Характеристики</a>
+            <a href="../config.html">Конфигурация</a>
+            <a href="versions.html">Версии</a>
+            <a href="conclusion.html">Обобщение</a>
+        </nav>
+
+        <a href="../index.html" class="btn">OSPF</a>
+
+        <div class="scroll-bar"></div>
+
+    </header>
+
+    <!-- header section ends -->
+
+    <!-- contact section starts  -->
+
+    <section class="contact" id="contact">
+
+        <h1 class="heading">DD пакет</h1>
+        <div class="row">
+            <div class="packets">
+                <p>По време на инициализация на съседство, два рутера използват DD пакети, за да опишат своите собствени бази данни за състоянието на връзката (LSDB) за LSDB синхронизация. 
+                    DD пакетът съдържа заглавката на всеки LSA в LSDB. Заглавката на LSA уникално идентифицира LSA. 
+                    Заглавката на LSA заема само малка част от LSA, което намалява количеството трафик, предаван между рутерите. 
+                    Съсед може да използва заглавката на LSA, за да провери дали вече има LSA. Когато два рутера обменят DD пакети, единият функционира като главен, а другият като подчинен. 
+                    Главният дефинира начален пореден номер и увеличава поредния номер с едно всеки път, когато изпраща DD пакет. 
+                    След като подчиненият получи DD пакет, той използва поредния номер, пренесен в DD пакета, за потвърждение.</p>
+            </div>
+        </div>
+        <div class="row">
+
+            <table class="styled-table">
+                <tbody>
+                    <tr>
+                        <td colspan="8" class="accordion">Version
+                            <div class="panel">
+                                <p>8 бита. Номерът на версията, която се използва, 2 или 3.</p>
+                            </div>
+                        </td>
+                        <td colspan="8" class="accordion">Type
+                            <div class="panel">
+                                <p>8 бита. 5 типа пакета, разгледани са по-надолу.</p>
+                            </div>
+                        </td>
+                        <td colspan="16" class="accordion">Packet length
+                            <div class="panel">
+                                <p>16 бита. 2 октета, стойността е в мерни единици октети.</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="32" class="accordion">Router ID
+                            <div class="panel">
+                                <p>32 бита. Уникален идентификатор на устройството. За ID се избира един от IP адресите
+                                    на интерфейсите (имплементацията на Cisco избира най-големия по стойност адрес). Ако
+                                    на никой интерфейс не е назначен адрес, се избира 0.0.0.0 .</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="32" class="accordion">Area ID
+                            <div class="panel">
+                                <p>32 бита. Идентификатор на областта, към която принадлежи пакетът (в която се намира
+                                    създалият го рутър). Обикновено - IP адрес на една от мрежите, към които рутърът е
+                                    свързан.</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="16" class="accordion">Checksum
+                            <div class="panel">
+                                <p>16 бита. Стандартна контролна сума, която се изчислява на база на останалите полета
+                                </p>
+                            </div>
+                        </td>
+                        <td colspan="16" class="accordion">AuType
+                            <div class="panel">
+                                <p>16 бита. Дефинирани стойности са:
+                                    <br>0 - няма удостоверяване.
+                                    <br>1 - удостоверяване чрез парола.
+                                    <br>всички останали - запазени за раздаване от IANA.2
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="32" class="accordion">Authentication
+                            <div class="panel">
+                                <p>32 бита. Съдържат паролата (в някакъв тип, различен от plaintext).</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="32" class="accordion">Authentication
+                            <div class="panel">
+                                <p>32 бита. Съдържат паролата (в някакъв тип, различен от plaintext).</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="second">
+                        <td colspan="16" class="accordion">Interface MTU
+                            <div class="panel">
+                                <p>16 бита. Максимална дължина на DD пакета, изпратен от интерфейса с деактивирана фрагментация на пакети.
+                                </p>
+                            </div>
+                        </td>
+                        <td colspan="7" class="accordion">Options
+                            <div class="panel">
+                                <p>Стойностите са както следва:
+                                    <br>
+                                    E: Тип 5 (LSA) се изпращат.
+                                    <br>
+                                    MC: IP мултикаст пакетите се препращат.
+                                    <br>
+                                    N/P: Обработват се LSA от тип 7.
+                                    <br>
+                                    DC: Връзките при поискване се обработват.
+                                </p>
+                            </div>
+                        </td>
+                        <td colspan="6" class="accordion">00000
+                        </td>
+                        <td colspan="1" class="accordion">I
+                            <div class="panel">
+                                <p>1 бит. Ако DD пакетът е първият пакет сред множество последователни DD пакети, изпратени от рутер, това поле е настроено на 1. В други случаи това поле е зададено на 0.
+                                </p>
+                            </div>
+                        </td>
+                        <td colspan="1" class="accordion">M
+                            <div class="panel">
+                                <p>1 бит. Ако DD пакетът е последният пакет сред множество последователни DD пакети, изпратени от рутер, това поле е настроено на 0. В други случаи това поле е настроено на 1.
+                                </p>
+                            </div>
+                        </td>
+                        <td colspan="1" class="accordion">m/s
+                            <div class="panel">
+                                <p>1 бит. Когато два рутера обменят DD пакети, те договарят връзка главен/подчинен. Рутерът с по-голям идентификатор на рутера става главен. Ако това поле е настроено на 1, DD пакетът се изпраща от капитана.
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="second">
+                        <td colspan="32" class="accordion">DD sequence number
+                            <div class="panel">
+                                <p>32 бита. Пореден номер на DD пакета. Главният и подчиненият използват поредния номер, за да гарантират, че DD пакетите се предават правилно.</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="second">
+                        <td colspan="32" class="accordion">Designated Router
+                            <div class="panel">
+                                <p>Информация за заглавката на LSA, включена в DD пакета.</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="second">
+                        <td colspan="32" class="accordion">LSA Headers...
+                            <div class="panel">
+                                <p>32 бита. Адрес на интерфейса на DR.</p>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <div class="row">
+            <div class="packets">
+                <h3 class="title">Полета на пакета</h3>
+                <p>
+                    <a>Interface MTU</a> - 16 бита. Максимална дължина на DD пакета, изпратен от интерфейса с деактивирана фрагментация на пакети.
+                    <br>
+                    <a>Options</a> - Стойностите са както следва:
+                    <br>
+                    E: Тип 5 (LSA) се изпращат.
+                    <br>
+                    MC: IP мултикаст пакетите се препращат.
+                    <br>
+                    N/P: Обработват се LSA от тип 7.
+                    <br>
+                    DC: Връзките при поискване се обработват.
+                    <br>
+                    <a>I</a> - 1 бит. Ако DD пакетът е първият пакет сред множество последователни DD пакети, изпратени от рутер, това поле е настроено на 1. В други случаи това поле е зададено на 0.
+                    <br>
+                    <a>M</a> - 1 бит. Ако DD пакетът е последният пакет сред множество последователни DD пакети, изпратени от рутер, това поле е настроено на 0. В други случаи това поле е настроено на 1.
+                    <br>
+                    <a>M/S</a> - 1 бит. Когато два рутера обменят DD пакети, те договарят връзка главен/подчинен. Рутерът с по-голям идентификатор на рутера става главен. Ако това поле е настроено на 1, DD пакетът се изпраща от капитана.
+                    <br>
+                    <a>DD sequence number</a> - 32 бита. Пореден номер на DD пакета. Главният и подчиненият използват поредния номер, за да гарантират, че DD пакетите се предават правилно.
+                    <br>
+                    <a>Designated Router</a> -  Информация за заглавката на LSA, включена в DD пакета.
+                    <br>
+                    <a>LSA Headers...</a> - 32 бита. Адрес на интерфейса на DR.
+                </p>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- contact section ends -->
+
+    <!-- footer section  -->
+
+    <div class="footer"> Kурсов проект на <a href="http://deyanm.com/">Деян Маринов</a> | &copy; 2021 Всички права
+        запазени.</div>
+
+    <!-- custom js file link  -->
+    <script src="../script.js"></script>
+
+
+</body>
+
+</html>

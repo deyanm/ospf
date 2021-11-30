@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>OSPF Протокол</title>
+
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="shortcut icon" type="image/jpg" href="image/favicon.ico" />
+
+</head>
+
+<body>
+
+    <!-- header section starts  -->
+
+    <header>
+
+        <div id="menu" class="fas fa-bars"></div>
+
+        <nav class="navbar">
+            <a href="index.html">Начало</a>
+            <a href="working.html">Принцип на работа</a>
+            <a href="char.html">Характеристики</a>
+            <a href="config.html">Конфигурация</a>
+            <a href="versions.html">Версии</a>
+            <a class="active" href="conclusion.html">Обобщение</a>
+        </nav>
+
+        <a href="index.html" class="btn">OSPF</a>
+
+        <div class="scroll-bar"></div>
+
+    </header>
+
+    <section class="home" id="working">
+
+        <h3 class="name">Обобщение</h3>
+
+        <div class="content">
+            <img src="image/ospf-protocol-backbone-area-routing.webp" />
+        </div>
+
+    </section>
+
+    <section class="main" id="main" style="min-height: 0;">
+
+        <div class="row">
+
+            <div class="content">
+                <div class="box-container">
+
+                    <p>От написаното до момента може да се заключи, че OSPF протокола е доста широкообхватен и
+                        динамичен, което го нарежда на челните места по използване в мрежовите топологии. Използването
+                        на бързия и надежден Дийкстра алгоритъм спомага за бързодействивето му и реагирането в промяната
+                        на мрежата. По-долу съм изброил предимствата и недостатъците на протокола и защо не се използва
+                        широко в публичното Интернет пространство.</p>
+
+
+                </div>
+
+            </div>
+    </section>
+
+    <section class="education" id="education">
+
+        <h1 class="heading">Оценка на протокола</h1>
+
+        <div class="row">
+
+            <div class="column">
+
+                <h3 class="title">Предимства</h3>
+
+                <div class="box">
+                    <h3>Опознаване на топологията</h3>
+                    <p>Протоколът OSPF опознава напълно мрежовата си топология, което позволява на рутерите да
+                        изчисляват маршрути въз основа на входящите заявки.</p>
+                </div>
+                <div class="box">
+                    <h3>Няма ограничения на hop count</h3>
+                    <p>OSPF протоколът няма ограничения в броя на хоповете, за разлика от RIP протокола, който има
+                        най-много 15 хопа. Така OSPF работи по-бързо от RIP и има по-добро балансиране на натоварването.
+                    </p>
+                </div>
+                <div class="box">
+                    <h3>Навременно разпространяване</h3>
+                    <p>OSPF изпраща актуализации за състоянието на връзката за multicast предаване и ги изпраща само
+                        когато има промяна в мрежата.</p>
+                </div>
+
+            </div>
+
+            <div class="column">
+
+                <h3 class="title">Недостатъци</h3>
+
+                <div class="box">
+                    <h3>По-напреднали познания</h3>
+                    <p>OSPF протоколът изисква по-напреднали познания за сложни мрежи, което го прави не толкова лесен
+                        за научаване, колкото някои други протоколи.</p>
+                </div>
+                <div class="box">
+                    <h3>Липса на мащабируемост</h3>
+                    <p>OSPF маршрутизирането не се мащабира, когато към мрежата са добавени повече рутери. Липсата на
+                        мащабируемост в OSPF протокола го прави неподходящ за маршрутизиране в Интернет.</p>
+                </div>
+                <div class="box">
+                    <h3>По-голямо количество памет</h3>
+                    <p>Протоколът OSPF поддържа множество копия на информацията за маршрутизиране, увеличавайки
+                        необходимото количество памет.</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <div class="footer"> Kурсов проект на <a href="http://deyanm.com/">Деян Маринов</a> | &copy; 2021 Всички права
+        запазени.</div>
+
+    <!-- custom js file link  -->
+    <script src="script.js"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>OSPF Протокол</title>
+
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="shortcut icon" type="image/jpg" href="image/favicon.ico" />
+
+</head>
+
+<body>
+
+    <!-- header section starts  -->
+
+    <header>
+
+        <div id="menu" class="fas fa-bars"></div>
+
+        <nav class="navbar">
+            <a href="index.html">Начало</a>
+            <a href="working.html">Принцип на работа</a>
+            <a href="char.html">Характеристики</a>
+            <a href="config.html">Конфигурация</a>
+            <a class="active" href="versions.html">Версии</a>
+            <a href="conclusion.html">Обобщение</a>
+        </nav>
+
+        <a href="index.html" class="btn">OSPF</a>
+
+        <div class="scroll-bar"></div>
+
+    </header>
+
+    <!-- header section ends -->
+
+    <!-- home section starts  -->
+
+    <section class="home" id="working">
+
+        <h3 class="name">OSPFv2 и OSPFv3</h3>
+
+        <div class="content">
+            <img src="image/OSPFv2-OSPFv3.png" />
+        </div>
+
+    </section>
+
+    <!-- home section ends -->
+
+    <!-- main section starts  -->
+
+    <section class="main" id="main" style="min-height: 0;">
+
+        <div class="row">
+
+            <div class="content">
+                <div class="box-container">
+
+                    <p>OSPFv3 е за IPv6 това, което OSPFv2 е за IPv4. Двете версии на OSPF имат много общо,
+                        но има няколко важни разлики в начина на работа на двата протокола. В този раздел се подчертават
+                        някои от по-забележителните отклонения. За илюстрация, OSPFv2 и OSPFv3 са конфигурирани в
+                        примерната топология в началото на страницата.</p>
+
+                    <h3 class="title">
+                        Нови LSА типове
+                    </h3>
+                    <p>
+                        OSPFv3 наследява седемте основни типа LSA, с които сме запознати от OSPFv2. Въпреки това, LSA от
+                        тип 1 и 2 са пренасочени, както ще бъде обсъдено след малко. OSPFv3 въвежда и два нови типа LSA:
+                        Link и Intra-area Prefix.
+                    </p>
+                </div>
+
+            </div>
+    </section>
+
+    <section class="contact" id="contact" style="min-height: 0;">
+        <div class="row">
+
+
+            <table class="basic-table">
+                <tbody>
+                    <tr>
+                        <th colspan="2"><strong>OSPFv3</strong></th>
+                        <th colspan="2"><strong>OSPFv2</strong></th>
+                    </tr>
+                    <tr>
+                        <td>0x2001</td>
+                        <td>Router LSA</td>
+                        <td>1</td>
+                        <td>Router LSA</td>
+                    </tr>
+                    <tr>
+                        <td>0x2002</td>
+                        <td>Network LSA</td>
+                        <td>2</td>
+                        <td>Network LSA</td>
+                    </tr>
+                    <tr>
+                        <td>0x2003</td>
+                        <td>Inter-area Prefix LSA</td>
+                        <td>3</td>
+                        <td>Network Summary LSA</td>
+                    </tr>
+                    <tr>
+                        <td>0x2004</td>
+                        <td>Inter-area Router LSA</td>
+                        <td>4</td>
+                        <td>ASBR Summary LSA</td>
+                    </tr>
+                    <tr>
+                        <td>0x4005</td>
+                        <td>AS-External LSA</td>
+                        <td>5</td>
+                        <td>AS-External LSA</td>
+                    </tr>
+                    <tr>
+                        <td>0x2006</td>
+                        <td>Group Membership LSA</td>
+                        <td>6</td>
+                        <td>Group Membership LSA</td>
+                    </tr>
+                    <tr>
+                        <td>0x2007</td>
+                        <td>Type-7 LSA</td>
+                        <td>7</td>
+                        <td>NSSA External LSA</td>
+                    </tr>
+                    <tr>
+                        <td>0x0008</td>
+                        <td>Link LSA</td>
+                        <td colspan="2"></td>
+                    </tr>
+                    <tr>
+                        <td>0x2009</td>
+                        <td>Intra-area Prefix LSA</td>
+                        <td colspan="2"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </section>
+
+    <section class="main" id="main" style="min-height: 0;">
+
+        <div class="row">
+
+            <div class="content">
+                <div class="box-container">
+                    <h3 class="title">
+                        Отделяне на адресирането от SPF дървото
+                    </h3>
+                    <p>
+                        Едно от най-големите предимства на OSPFv3 пред неговия предшественик е отделянето на IP
+                        адресирането от изчисляването на SPF дървото. Един от новите LSA на OSPFv3, Intra-area Prefix
+                        LSA (тип 9), обработва информация за intra-area мрежата, която преди е била включена в
+                        OSPFv2 тип 2 LSA. Тъй като IP адресирането комуникира независимо от LSA, използвани за
+                        изчисляване на SPF дърво, добавянето или модифицирането на IP подмрежи в OSPF домейна няма да
+                        повлияе на целостта на SPF дървото (което се отнася само до възлите и връзките между тях) и
+                        избягва принудителното Преизчисляване на SPF.
+                    </p>
+                    <p>За илюстрация, по-долу са двете OSPF бази данни от R2 в примерната топология:</p>
+                    <pre>R2# <strong>show ip ospf database</strong>
+
+                        OSPF Router with ID (2.2.2.2) (Process ID 1)
+            
+                    Router Link States (Area 0)
+            
+            Link ID         ADV Router      Age         Seq#       Checksum Link count
+            2.2.2.2         2.2.2.2         1697        0x80000001 0x00264B 2
+            4.4.4.4         4.4.4.4         1693        0x80000002 0x005216 2
+            
+                    Summary Net Link States (Area 0)
+            
+            Link ID         ADV Router      Age         Seq#       Checksum
+            10.0.123.0      2.2.2.2         1683        0x80000002 0x00DEC5
+            
+                    Router Link States (Area 1)
+            
+            Link ID         ADV Router      Age         Seq#       Checksum Link count
+            1.1.1.1         1.1.1.1         1656        0x80000003 0x00BB55 1
+            2.2.2.2         2.2.2.2         1655        0x80000003 0x008086 1
+            3.3.3.3         3.3.3.3         1656        0x80000003 0x003FBF 1
+            
+                    Net Link States (Area 1)
+            
+            Link ID         ADV Router      Age         Seq#       Checksum
+            10.0.123.3      3.3.3.3         1656        0x80000001 0x007B0E
+            
+                    Summary Net Link States (Area 1)
+            
+            Link ID         ADV Router      Age         Seq#       Checksum
+            10.0.0.0        2.2.2.2         1694        0x80000001 0x003BB2
+            </pre>
+                    <pre>R2# <strong>show ipv6 ospf database</strong>
+
+                OSPFv3 Router with ID (2.2.2.2) (Process ID 1)
+    
+            Router Link States (Area 0)
+    
+    ADV Router      Age         Seq#        Fragment ID  Link count  Bits
+    2.2.2.2         1694        0x80000002  0            1           B
+    4.4.4.4         1695        0x80000002  0            1           None
+    
+            Inter Area Prefix Link States (Area 0)
+    
+    ADV Router      Age         Seq#        Prefix
+    2.2.2.2         1692        0x80000001  2001:DB8:0:123::/64
+    
+            <em>Link (Type-8) Link States (Area 0)</em>
+    
+    ADV Router      Age         Seq#        Link ID    Interface
+    2.2.2.2         1696        0x80000002  6          Se1/0
+    4.4.4.4         1699        0x80000002  6          Se1/0
+    
+            <em>Intra Area Prefix Link States (Area 0)</em>
+    
+    ADV Router      Age         Seq#        Link ID    Ref-lstype  Ref-LSID
+    2.2.2.2         1696        0x80000001  0          0x2001      0
+    4.4.4.4         1699        0x80000001  0          0x2001      0
+    
+            Router Link States (Area 1)
+    
+    ADV Router      Age         Seq#        Fragment ID  Link count  Bits
+    1.1.1.1         1652        0x80000005  0            1           None
+    2.2.2.2         1652        0x80000005  0            1           B
+    3.3.3.3         1649        0x80000005  0            1           None
+    
+            Net Link States (Area 1)
+    
+    ADV Router      Age         Seq#        Link ID    Rtr count
+    3.3.3.3         1661        0x80000001  4          3
+    
+            Inter Area Prefix Link States (Area 1)
+    
+    ADV Router      Age         Seq#        Prefix
+    2.2.2.2         1693        0x80000001  2001:DB8::/64
+    
+            <em>Link (Type-8) Link States (Area 1)</em>
+    
+    ADV Router      Age         Seq#        Link ID    Interface
+    1.1.1.1         1697        0x80000002  4          Fa0/0
+    2.2.2.2         1698        0x80000002  4          Fa0/0
+    3.3.3.3         1696        0x80000002  4          Fa0/0
+    
+            <em>Intra Area Prefix Link States (Area 1)</em>
+    
+    ADV Router      Age         Seq#        Link ID    Ref-lstype  Ref-LSID
+    3.3.3.3         1662        0x80000001  4096       0x2002      4
+    </pre>
+                    <p>
+                        Трябва да се обърне внимание, че базата данни на OSPFv3 изглежда по-голяма, тъй като мрежовото
+                        адресиране вече се съхранява отделно в новите LSA за връзка и в рамките на зоната.
+                    </p>
+                    <h3 class="title">Обхват на LSA "наводняването"
+                    </h3>
+                    <p>
+                    <p>От написаното в горната таблица с типовете на LSA, може да се отбележи, че числата на OSPFv3 LSA
+                        започват с различни числа (например 0x<strong>2</strong>001 срещу 0x<strong>4</strong>005).
+                        Вторият и третият най-значим бит в LSA номера (упоменат като битове S2 и S1, съответно) показват
+                        неговия <em>обхват на "наводняване"</em>:</p>
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="contact" id="contact" style="min-height: 0;">
+        <div class="row">
+
+            <table class="basic-table">
+                <tbody>
+                    <tr>
+                        <td><strong>S2</strong></td>
+                        <td><strong>S1</strong></td>
+                        <td><strong>Обхват на "наводняване"</strong></td>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>Link-local</td>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>1</td>
+                        <td>Area</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>0</td>
+                        <td>AS (OSPF domain)</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>1</td>
+                        <td><em>Резервиран</em></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </section>
+
+    <section class="main" id="main" style="min-height: 0;">
+        <div class="row">
+            <div class="content">
+                <div class="box-container">
+                    <p>Повечето LSA пакети започват с 0x2, което показва, че вече са доставени в дадена област. Два LSA
+                        за
+                        отбелязване са AS-External LSA (който рекламира външни маршрути) с обхват за целия домейн и Link
+                        LSA с обхват, подходящо ограничен до локалната връзка.</p>
+                    <h3 class="title">Link-local адресиране
+                    </h3>
+                    <p>Рутер с OSPFv2 образува съседства, използвайки своя конфигуриран IPv4 интерфейс на адрес:</p>
+                    <pre>R1# <strong>show ip ospf neighbor detail</strong>
+ Neighbor 2.2.2.2, <em>interface address 10.0.123.2</em>
+    In the area 1 via interface FastEthernet0/0
+    Neighbor priority is 1, State is FULL, 6 state changes
+    <em>DR is 10.0.123.3 BDR is 10.0.123.2</em>
+    Options is 0x52
+    LLS Options is 0x1 (LR)
+    Dead timer due in 00:00:37
+    Neighbor is up for 00:15:32
+    Index 2/2, retransmission queue length 0, number of retransmission 0
+    First 0x0(0)/0x0(0) Next 0x0(0)/0x0(0)
+    Last retransmission scan length is 0, maximum is 0
+    Last retransmission scan time is 0 msec, maximum is 0 msec
+...
+                       </pre>
+                    <p>
+                        OSPFv3 обаче използва обхвата на локалния адрес на IPv6 (FE80::/10). Всички OSPFv3 съседства се
+                        формират с помощта на локалните адреси за връзка:</p>
+                    <pre>R1# <strong>show ipv6 ospf neighbor detail</strong>
+ Neighbor 3.3.3.3
+    In the area 1 via interface FastEthernet0/0 
+    Neighbor: interface-id 4, <em>link-local address FE80::C003:7DFF:FE07:0</em>
+    Neighbor priority is 1, State is FULL, 6 state changes
+    <em>DR is 3.3.3.3 BDR is 2.2.2.2</em>
+    Options is 0x6670B96D
+    Dead timer due in 00:00:32
+    Neighbor is up for 00:16:48
+    Index 1/1/1, retransmission queue length 0, number of retransmission 0
+    First 0x0(0)/0x0(0)/0x0(0) Next 0x0(0)/0x0(0)/0x0(0)
+    Last retransmission scan length is 0, maximum is 0
+    Last retransmission scan time is 0 msec, maximum is 0 msec
+                           </pre>
+                    <p>Също така трябва да се има предвид във втория пример по-горе, че съседните рутери се отнасят не
+                        към IP адрес, а към OSPF ID, демонстрирайки основното разделяне на OSPFv3 на SPF дървото и IP
+                        адресирането. Трябва да се отбележи, че идентификаторите на рутер с OSPFv3 не са IPv4 адреси; те
+                        са просто уникални
+                        32-битови идентификатори, изразени в познатата десетична нотация с точки.</p>
+                    <h3 class="title">Поддръжка на множество инстанции на връзката</h3>
+                    <p>OSPFv3 включва поддръжка за множество екземпляри на OSPF, работещи паралелно през обща връзка.
+                        Това е особено удобно за споделени мрежови сегменти, като тези, които се намират в точки за
+                        обмен на интернет. В Cisco IOS екземплярите на OSPFv3 се конфигурират чрез добавяне на аргумента
+                        на instance към израза ipv6 ospf:</p>
+                    <pre>Router(config-if)# <strong>ipv6 ospf 100 area 0 instance 1</strong>
+                        </pre>
+                    <h3 class="title">Премахване на специфичното за OSPF удостоверяване</h3>
+                    <p>OSPFv2 удостоверяването се постига чрез внедряване на споделен секрет и MD5 HMAC, поддържан като
+                        част от протокола OSPFv2. OSPFv3 премахва изцяло собствената си поддръжка за удостоверяване,
+                        вместо това разчита на по-гъвкавата IPSec рамка, предлагана от IPv6.</p>
+                    <h3 class="title">Подобрена обработка на неизвестните типове LSA</h3>
+                    <p>OSPFv2 рутерите просто изхвърлят LSA от неизвестен тип. OSPFv3 LSA могат да бъдат изхвърлени или
+                        по
+                        избор съхранени и "наводнени", все едно са познати на мрежата. Кое действие се предприема се
+                        определя от
+                        най-значимия бит (битът U) в номера на типа LSA. Тази опция позволява въвеждането на нови типове
+                        LSA в OSPF мрежи, където само някои рутери поддържат новите типове.</p>
+                    <h3 class="title">Разлики в конфигурацията на Cisco IOS</h3>
+                    <p>Cisco отбелязва някои разлики в начина, по който OSPFv2 и OSPFv3 са конфигурирани <a
+                            href="https://www.cisco.com/en/US/docs/ios/ipv6/configuration/guide/ip6-ospf_ps6441_TSD_Products_Configuration_Guide_Chapter.html#wp1069821">тук</a>.
+                        Кратко
+                        резюме:</p>
+                    <ul>
+                        <li>Активирането на OSPF на IPv6 интерфейс автоматично активира OSPFv3; не е необходимо да се създава отделен OSPFv3 процес на
+                            маршрутизиране.</li>
+                        <li>Интерфейсите на OSPFv3 трябва да бъдат посочени в конфигурацията на интерфейса; няма опция
+                            за определяне на интерфейси чрез командата <code>network</code> в конфигурацията на рутера.
+                        </li>
+                        <li>NBMA съседите трябва да бъдат идентифицирани чрез IPv6 адрес за локална връзка.</li>
+                        <li>Подобно на OSPFv2, OSPFv3 ще вземе своя идентификатор на рутера от най-високия номер IPv4
+                            интерфейс за обратна връзка; Въпреки това, тъй като този IPv4 адрес вероятно не е от
+                            значение за вашата IPv6 мрежа, се препоръчва ръчно да посочите идентификатор на рутера с
+                            командата <code>router-id</code> в конфигурацията на рутера OSPFv3.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <div class="footer"> Kурсов проект на <a href="http://deyanm.com/">Деян Маринов</a> | &copy; 2021 Всички права
+        запазени.</div>
+
+    <!-- custom js file link  -->
+    <script src="script.js"></script>
+
+
+</body>
+
+</html>
